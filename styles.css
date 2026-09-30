@@ -1,0 +1,259 @@
+/* ---------- Tokens ---------- */
+:root {
+  /* Five color roles. Raw hex codes live here and nowhere else. */
+  --surface: #0d1117;   /* page background */
+  --text:    #e6edf3;   /* body copy */
+  --brand:   #58a6ff;   /* buttons, focus, links */
+  --success: #3fb950;   /* done */
+  --danger:  #ff7b72;   /* errors, delete */
+
+  /* Shades derived from the five roles */
+  --muted:  color-mix(in srgb, var(--text) 68%, var(--surface));
+  --panel:  color-mix(in srgb, var(--text) 6%, var(--surface));
+  --line:   color-mix(in srgb, var(--text) 16%, var(--surface));
+
+  /* Spacing scale: 4, 8, 16, 24, 32, 48, 64 */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2rem;
+  --sp-6: 3rem;
+  --sp-7: 4rem;
+
+  --radius: 0.625rem;
+  --speed: 150ms;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
+p  { margin: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Page skeleton: Grid ---------- */
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--sp-4) var(--sp-3);
+  row-gap: var(--sp-4);
+}
+
+.page__header { grid-area: header; }
+.page__main   { grid-area: main; }
+.page__footer { grid-area: footer; color: var(--muted); font-size: 0.875rem; }
+
+/* ---------- Header ---------- */
+.page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.summary {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* ---------- Add form: Flexbox ---------- */
+.add-form__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.add-form__row {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.add-form__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: var(--sp-3);
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color var(--speed) ease-out;
+}
+
+.add-form__input::placeholder { color: var(--muted); }
+.add-form__input:hover { border-color: var(--muted); }
+.add-form__input:focus { border-color: var(--brand); outline: none; }
+.add-form__input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.add-form__input--invalid,
+.add-form__input--invalid:hover,
+.add-form__input--invalid:focus { border-color: var(--danger); }
+
+.button {
+  padding: 0 var(--sp-4);
+  min-height: 3rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--surface);
+  background: var(--brand);
+  border: 2px solid var(--brand);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color var(--speed) ease-out;
+}
+
+.button:hover {
+  background: color-mix(in srgb, var(--brand) 80%, var(--text));
+}
+
+.button:active { transform: scale(0.98); }
+
+.feedback {
+  min-height: 1.5rem;
+  margin-top: var(--sp-2);
+  font-size: 0.9375rem;
+  color: var(--danger);
+}
+
+/* ---------- Progress ---------- */
+.progress {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  margin: var(--sp-2) 0 var(--sp-4);
+  accent-color: var(--success);
+}
+
+/* ---------- Task list ---------- */
+.task-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-3);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color var(--speed) ease-out;
+}
+
+.task:hover { border-color: var(--muted); }
+
+.task__label {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+  cursor: pointer;
+}
+
+.task__check {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--success);
+  cursor: pointer;
+}
+
+.task__text {
+  overflow-wrap: anywhere;
+  transition: color var(--speed) ease-out;
+}
+
+.task--done .task__text {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.task__delete {
+  flex: none;
+  min-height: 2.75rem;
+  padding: 0 var(--sp-3);
+  font: inherit;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--speed) ease-out, border-color var(--speed) ease-out;
+}
+
+.task__delete:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.empty {
+  padding: var(--sp-5) var(--sp-3);
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+/* ---------- File warning ---------- */
+.notice {
+  margin-bottom: var(--sp-4);
+  padding: var(--sp-3);
+  color: var(--text);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+}
+
+/* ---------- Wider screens (mobile-first: min-width only) ---------- */
+@media (min-width: 600px) {
+  .page {
+    grid-template-columns: minmax(0, 40rem);
+    justify-content: center;
+    padding: var(--sp-6) var(--sp-4);
+    row-gap: var(--sp-5);
+  }
+
+  h1 { font-size: 2.5rem; }
+
+  .page__header {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none; }
+}
+
+/* Keep last: same specificity as the class rules above, so it must come after them. */
+[hidden] { display: none; }

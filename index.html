@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>To-do list</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page__header">
+      <h1>To-do list</h1>
+      <p id="summary" class="summary">No tasks</p>
+    </header>
+
+    <main class="page__main">
+      <p id="file-warning" class="notice" hidden>
+        This page uses ES modules, which browsers block on file:// links.
+        Open the folder in VS Code and start it with Live Server.
+      </p>
+
+      <form id="task-form" class="add-form" novalidate>
+        <label for="task-input" class="add-form__label">New task</label>
+        <div class="add-form__row">
+          <input id="task-input" class="add-form__input" type="text"
+                 placeholder="What needs doing?" maxlength="100"
+                 autocomplete="off" aria-describedby="feedback">
+          <button class="button" type="submit">Add task</button>
+        </div>
+        <p id="feedback" class="feedback" role="alert"></p>
+      </form>
+
+      <progress id="progress" class="progress" max="1" value="0" aria-label="Tasks completed" hidden></progress>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty-message" class="empty">Nothing to do yet. Add your first task above.</p>
+    </main>
+
+    <footer class="page__footer">
+      <p>Tasks are saved in this browser.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Plain script (not a module) so it still runs when the page is opened from disk.
+    if (location.protocol === 'file:') {
+      document.getElementById('file-warning').hidden = false;
+    }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
